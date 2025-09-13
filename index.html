@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Double Tap Switch</title>
+  <style>
+    body {
+      margin: 0; height: 100vh; width: 100vw;
+      display: flex; justify-content: center; align-items: center;
+      background: black;
+    }
+    img {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain; /* or 'cover' if you want it cropped to fill */
+    }
+    #screenA, #screenB {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      display: flex; justify-content: center; align-items: center;
+    }
+    #screenB { display: none; }
+  </style>
+</head>
+<body>
+  <div id="screenA">
+    <img src="screenA.jpg" alt="Screen A">
+  </div>
+  <div id="screenB">
+    <img src="screenB.jpg" alt="Screen B">
+  </div>
+
+  <script>
+    let lastTap = 0;
+    function toggle() {
+      const a = document.getElementById("screenA");
+      const b = document.getElementById("screenB");
+      if (a.style.display === "none") {
+        a.style.display = "flex"; b.style.display = "none";
+      } else {
+        a.style.display = "none"; b.style.display = "flex";
+      }
+    }
+
+    function handleTap() {
+      const now = Date.now();
+      if (now - lastTap < 300) toggle();
+      lastTap = now;
+    }
+
+    document.body.addEventListener("touchstart", handleTap, {passive: true});
+    document.body.addEventListener("click", handleTap);
+  </script>
+</body>
+</html>
